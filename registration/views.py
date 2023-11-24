@@ -72,7 +72,7 @@ def register(request):
 
             message = 'send email for activate account'
             message = " Happy , i am amirhosein shojaei,happy developer "
-            body = "this linke for activate account:  <a href=\"{}?code={}\">Click here</a>".format(request.build_absolute_url('/accounts/register/'), code)
+            body = "this linke for activate account:  <a href=\"{}?code={}\">Click here</a>".format(request.build_absolute_uri('/accounts/register/'), code)
             message = message + body
             context = {
                 'message':message
