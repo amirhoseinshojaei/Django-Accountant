@@ -82,5 +82,9 @@ def submit_income(request):
         return JsonResponse({
             'error':'Invalid request',
         }, status = 400)
+    
+def index(request):
+    context ={}
+    return render (request,'index.html',context)
 
 
