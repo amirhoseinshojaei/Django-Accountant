@@ -3,6 +3,7 @@ accountant Web App
 
 
 GitHub license https://github.com/amirhoseinshojaei/Django-Accountant/blob/main/LICENSE
+
 Table of Contents
 
     About the Project
@@ -19,6 +20,7 @@ Table of Contents
 About the Project
 
 Welcome to the Financial Tracker Web App! This Django-based accountant web application is designed to simplify the management of financial transactions, accounts, and generate insightful reports. Whether you're an individual looking to track personal finances or a business managing multiple accounts, this app provides a user-friendly interface to streamline your financial management.
+
 Built With
 
     Django - The web framework for perfectionists with deadlines.
@@ -39,31 +41,31 @@ Installation
 
     Clone the repository
 
-sh
+
 
 git clone https://github.com/amirhoseinshojaei/financial-tracker.git
 
     Navigate to the project directory
 
-sh
+
 
 cd financial-tracker
 
     Install dependencies
 
-sh
+
 
 pip install -r requirements.txt
 
     Apply migrations
 
-sh
+
 
 python manage.py migrate
 
     Run the development server
 
-sh
+
 
 python manage.py runserver
 
