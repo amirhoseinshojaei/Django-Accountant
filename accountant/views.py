@@ -5,7 +5,9 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from .models import (Expense,Income)
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Aggregate , Count , Sum
 # Create your views here.
+
 @csrf_exempt
 def submit_expense(request):
     """submit an expense"""
@@ -43,6 +45,7 @@ def submit_expense(request):
         return JsonResponse({
             'error':'Invalid request method',
         }, status=400)
+
 @csrf_exempt
 def submit_income(request):
     """submit an income"""
@@ -86,5 +89,34 @@ def submit_income(request):
 def index(request):
     context ={}
     return render (request,'index.html',context)
+
+@csrf_exempt
+
+def generalstat(request):
+    # TODO: should get a valid duration
+    # TODO: is the token valid ?
+    
+    if request.method=='POST':
+        this_token = request.POST.get('token')
+        try:
+            this_user = User.objects.get(token__token= this_token)
+        except User.DoesNotExist:
+
+            return JsonResponse({
+                'error': 'invalid user'
+            }, status = 400)
+        income = Income.objects.filter(user = this_user)
+        expense = Expense.objects.filter(user = this_user)
+        Aggregate(Count('amount'),Sum('amount'))
+        context={}
+        context['expense'] = expense
+        context['income'] = income
+
+        return JsonResponse (context, encoder= JSONEncoder)
+    else:
+        return JsonResponse({
+            'error':'invalid request'
+        }, status = 400)
+    
 
 
