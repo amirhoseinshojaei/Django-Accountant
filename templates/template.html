@@ -51,7 +51,7 @@
                   <ul class="nav navbar-nav navbar-left">
                     {% if user.is_authenticated %}
                     <!--<li><a href="/static/todoer_release.apk">اپ اندروید</a></li>-->
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% comment %} <li><a href="{% url 'logout' %}">Logout</a></li> {% endcomment %}
                     {% else %}
                     <li><a href="{% url 'register' %}">Signup</a></li>
                     <!--<li><a href="/static/todoer_release.apk">اپ اندروید</a></li>-->
