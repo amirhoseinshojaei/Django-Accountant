@@ -105,9 +105,8 @@ def generalstat(request):
             return JsonResponse({
                 'error': 'invalid user'
             }, status = 400)
-        income = Income.objects.filter(user = this_user)
-        expense = Expense.objects.filter(user = this_user)
-        Aggregate(Count('amount'),Sum('amount'))
+        income = Income.objects.filter(user = this_user).aggregate(count=Count('amount'),total= Sum('amount'))
+        expense = Expense.objects.filter(user = this_user).aggregate(count=Count('amount'),total= Sum('amount'))
         context={}
         context['expense'] = expense
         context['income'] = income
