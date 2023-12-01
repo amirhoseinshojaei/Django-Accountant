@@ -1,4 +1,6 @@
 from django.shortcuts import render,HttpResponse
+from django.http import JsonResponse
+from json import JSONEncoder
 import random,string
 import requests
 from django.conf import settings
@@ -6,9 +8,10 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from datetime import datetime
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password , check_password
 from .models import PasswordresetCodes
 from accountant.models import Token
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 # create random string for token
 random_str = lambda N: ''.join(
@@ -114,3 +117,36 @@ def register(request):
     else:
         context = {'message':''}
         return render (request, 'register.html',context)
+
+@csrf_exempt
+
+def login (request):
+
+    if request.POST.__contains__('username') and request.POST.__contains__ ('password'):
+        username = request.POST.get('username')
+        password = request .POST.get('password')
+        try:
+            this_user = User.objects.get(username = username)
+        except User.DoesNotExist:
+            return JsonResponse({
+                "error": 'invalid user'
+            }, status = 400)
+        if (check_password(password, this_user.password)):
+            this_token = Token.objects.get(user = this_user)
+            token = this_token.token
+            context={}
+            context['resault'] = 'ok'
+            context['your token is'] = token
+            return JsonResponse (
+                context,
+                encoder= JSONEncoder
+
+            )
+        else :
+            context={}
+            context['error'] = 'password is wrong'
+            return JsonResponse (context , encoder= JSONEncoder)
+    else:
+        return JsonResponse({
+            'error': 'invalid request method'
+        }, status= 400)
