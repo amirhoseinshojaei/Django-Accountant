@@ -1,0 +1,72 @@
+<ion-view view-title="ثبت خرج">
+
+  <script id="expense-edit-modal.html" type="text/ng-template">
+    <ion-modal-view>
+      <ion-header-bar>
+        <h1 class="title">ویرایش خرج</h1>
+      </ion-header-bar>
+      <ion-content>
+        <form ng-submit="submitExpenseModal()">
+
+            <div class="list">
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">هزینه به تومان</span>
+                  <input type="number"  ng-model="editexpense.amount" value="{{modal_edit_amount}}"> 
+                </label>
+                <label class="item item-input item-stacked-label">
+                  <span class="input-label">موضوع هزینه</span>
+                  <input type="text"  ng-model="editexpense.text" value="{{modal_edit_text}}">
+                  <input type=hidden ng-model="editexpense.pk" value="{{modal_edit_pk}}">
+                </label>
+              </div>
+              <button class="button button-positive">
+                به روز رسانی
+              </button>
+        </form>
+      </ion-content>
+    </ion-modal-view>
+  </script>
+  
+  <ion-content ng-controller="ExpenseCtrl">
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="thisexpense in expense" type="item-text-wrap" href="#/tab/expense/{{expense.id}}">
+          در اینجا احتمالا خرج های قبلی رو نشون بدیم
+      </ion-item>
+    </ion-list>
+    <form ng-submit="submit()" >
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">هزینه به تومان</span>
+          <input type="number" placeholder="" ng-model="amount">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">موضوع هزینه</span>
+          <input type="text" placeholder="" ng-model="text">
+        </label>
+      </div>
+      <button class="button button-positive">
+        ثبت
+      </button>
+    </form>
+
+    <h3>تاریخچه</h3>
+    <ion-list
+              show-delete="shouldShowDelete"
+              can-swipe="listCanSwipe">
+      <ion-item ng-repeat="expense in expenses" class="item-thumbnail-left">
+
+            <h2>{{expense.fields.amount}}</h2>
+            <p>{{expense.fields.text}}</p>
+            <ion-option-button class="button-positive"
+                               ng-click="edit(expense)">
+              تغییر
+            </ion-option-button>
+            <ion-option-button class="button-info"
+                               ng-click="delete(expense)">
+              حذف
+            </ion-option-button>
+        </ion-item>
+      </ion-list>
+
+  </ion-content>
+</ion-view>
