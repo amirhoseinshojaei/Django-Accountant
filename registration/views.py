@@ -42,7 +42,7 @@ def grecaptcha_verify(request):
         return HttpResponse(response)
 
 def register(request):
-    if request.POST.has_key(
+    if request.POST.__contains__(
         'requestcode'
     ): # form is filled. if not spam, generate code and save in db, wait for email confirmation, return message
         
