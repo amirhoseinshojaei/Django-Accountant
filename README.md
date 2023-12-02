@@ -7,7 +7,7 @@ GitHub license https://github.com/amirhoseinshojaei/Django-Accountant/blob/main/
 Table of Contents
 
     About the Project
-     Built With
+    Built With
     Getting Started
     Prerequisites
     Installation
@@ -29,7 +29,7 @@ Built With
 
 Getting Started
 
-Get the Financial Tracker Web App up and running on your local machine with these simple steps.
+Get the accountant Web App up and running on your local machine with these simple steps.
 Prerequisites
 
 Make sure you have the following installed:
@@ -43,13 +43,13 @@ Installation
 
 
 
-git clone https://github.com/amirhoseinshojaei/financial-tracker.git
+git clone https://github.com/amirhoseinshojaei/Django-Accountant
 
     Navigate to the project directory
 
 
 
-cd financial-tracker
+cd accountant
 
     Install dependencies
 
