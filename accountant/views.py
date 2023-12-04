@@ -145,7 +145,30 @@ def income_stat(request):
         return JsonResponse({
             "error": 'your request method is not safe'
         }, status = 400)
-# TODO:create expensestat
+def expense_stat(request):
+    if request.POST.__contains__('username') and request.POST.__contains__('password'):
+        username = request.POST.get ('username')
+        password = request.POST.get ('password')
+        try:
+            this_user = User.objects.get (username = username)
+        except User.DoesNotExist:
+            return JsonResponse({
+                'error':'invalid '
+            }, status = 400)
+        if (check_password('password'), this_user.password):
+            this_expense = Expense.objects.get(user = this_user)
+            expense = this_expense.amount
+            context={}
+            context['amount'] = expense
+            return JsonResponse(context , encoder= JSONEncoder)
+        else :
+            return JsonResponse({
+                'error': 'your username is wrong'
+            }, status = 400)
+    else:
+        return JsonResponse({
+            'error': 'invalid request method'
+        }, status = 400)
     
 
 
