@@ -87,7 +87,7 @@ def register(request):
             }
             return render (request,'register.html',context)
         #  user clicked on code
-    elif request.GET.has_key('code'):
+    elif request.GET.__contains__('code'):
         code = request.GET['code']
         if PasswordresetCodes.objects.filter(
             code=code
