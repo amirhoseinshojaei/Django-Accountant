@@ -7,6 +7,7 @@ from .models import (Expense,Income)
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Aggregate , Count , Sum
 from django.contrib.auth.hashers import check_password
+from django.core import serializers
 # Create your views here.
 
 @csrf_exempt
@@ -145,6 +146,8 @@ def income_stat(request):
         return JsonResponse({
             "error": 'your request method is not safe'
         }, status = 400)
+    
+
 def expense_stat(request):
     if request.POST.__contains__('username') and request.POST.__contains__('password'):
         username = request.POST.get ('username')
@@ -169,6 +172,24 @@ def expense_stat(request):
         return JsonResponse({
             'error': 'invalid request method'
         }, status = 400)
+    
+
+@csrf_exempt    
+def query_income (request):
+    
+    if request.method == 'POST':
+        this_token = request.POST.get('token')
+        num = request.POST.get('count',11)
+        try:
+            this_user = User.objects.get(token__token = this_token)
+        except User.DoesNotExist:
+            return JsonResponse ({
+                'error': 'invalid user'
+            }, status = 400)
+        incomes = Income.objects.filter(user = this_user).order_by('-date')[:num]
+        incomes_serialized = serializers.serialize ("json",incomes)
+        return JsonResponse (incomes_serialized , encoder= JSONEncoder, safe= False)
+
     
 
 
