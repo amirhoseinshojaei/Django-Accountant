@@ -8,5 +8,6 @@ urlpatterns=[
     path ('incomestat/',views.income_stat, name = 'incomestat'),
     path ('expensestat/', views.expense_stat , name = 'expensestat'),
     path ('query/incomes/', views.query_income, name = 'query_incomes'),
+    path ('query/expenses/', views.query_expense, name = 'query_expenses'),
     path ('',views.index, name= 'index'),
 ]
