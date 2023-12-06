@@ -189,6 +189,25 @@ def query_income (request):
         incomes = Income.objects.filter(user = this_user).order_by('-date')[:num]
         incomes_serialized = serializers.serialize ("json",incomes)
         return JsonResponse (incomes_serialized , encoder= JSONEncoder, safe= False)
+    
+@csrf_exempt
+def query_expense (request):
+    if request.method == 'POST':
+        this_token = request.POST.get ('token')
+        num = request.POST.get ('count',11)
+        try:
+            this_user = User.objects.get(token__token = this_token)
+        except User.DoesNotExist:
+            return JsonResponse({
+                'error':'invalid user'
+            }, status = 400)
+        expenses = Expense.objects.filter(user = this_user).order_by('-date')[:num]
+        expense_serialized = serializers.serialize ("json",expenses)
+        return JsonResponse (expense_serialized , encoder= JSONEncoder, safe= False)
+    else:
+        return JsonResponse({
+            'error': 'invalid request method'
+        }, status = 400)
 
     
 
