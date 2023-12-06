@@ -4,7 +4,7 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
 # Create your models here.
 class Token(models.Model):
-    token = models.CharField( default= get_random_string(length= 30 ) )
+    token = models.CharField( max_length= 30, default= get_random_string (length= 30))
     user = models.ForeignKey(User,on_delete=models.CASCADE)
 
     def __str__(self):
