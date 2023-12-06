@@ -189,6 +189,10 @@ def query_income (request):
         incomes = Income.objects.filter(user = this_user).order_by('-date')[:num]
         incomes_serialized = serializers.serialize ("json",incomes)
         return JsonResponse (incomes_serialized , encoder= JSONEncoder, safe= False)
+    else:
+        return JsonResponse({
+            'error': "invalid request method"
+        }, status = 400)
     
 @csrf_exempt
 def query_expense (request):
