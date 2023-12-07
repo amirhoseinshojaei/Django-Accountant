@@ -32,3 +32,31 @@ POST , return a json
 input : token
 
 output : Count & sum income , expense
+
+/query/incomestat/
+POST , return json
+
+input: username , password
+
+output: Income
+
+/query/expensestat/
+POST , return json
+
+input: username , password
+
+output: Expense
+
+/query/incomes/
+POST , return json
+
+input: token
+
+output: incomes
+
+/query/expenses/
+POST , return json
+
+input: token
+
+output: expenses
