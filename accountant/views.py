@@ -212,6 +212,8 @@ def query_expense (request):
         return JsonResponse({
             'error': 'invalid request method'
         }, status = 400)
+    
+# TODO : news
 
     
 
