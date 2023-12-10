@@ -60,3 +60,14 @@ POST , return json
 input: token
 
 output: expenses
+
+
+register/signup 
+POST , return json
+input: username & password
+output : show the token
+
+register/reset/token
+POST , return json
+input : username & password
+output : show the token
