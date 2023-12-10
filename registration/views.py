@@ -150,3 +150,30 @@ def login (request):
         return JsonResponse({
             'error': 'invalid request method'
         }, status= 400)
+
+def reset_token (request):
+    if request.POST.__contains__('username') and request.POST.__contains__('password'):
+        username = request.POST.get ('username')
+        password = request.POST.get ('password')
+        # exist user?
+        try:
+            this_user = User.objects.get (username = username)
+        except User.DoesNotExist:
+            return JsonResponse ({
+                'error' : 'invalid user'
+            }, status = 400)
+        if (check_password(password , this_user.password)):
+            token = Token.objects.filter (user = this_user)
+            show_token = token.token
+            context = {}
+            context ['token'] = show_token
+            return JsonResponse (context , encoder= JSONEncoder)
+        else :
+            return JsonResponse ({
+                'error': 'password is wrong'
+            }, status = 400)
+        
+    else :
+        return JsonResponse({
+            'error': 'invalid request method'
+        }, status = 400)
