@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Expense,Income,Token
+from .models import Expense,Income,Token,New
 # Register your models here.
 class ExpenseAdmin(admin.ModelAdmin):
     list_display = [
@@ -34,3 +34,15 @@ class TokenAdmin(admin.ModelAdmin):
     search_fields = ['user']
 
 admin.site.register(Token,TokenAdmin)
+
+class NewsAdmin (admin.ModelAdmin):
+    list_display = [
+        'title',
+        'date',
+        'user'
+    ]
+    list_filter = ['date']
+    ordering = ['date']
+    search_fields = ['title']
+
+admin.site.register(New,NewsAdmin)
