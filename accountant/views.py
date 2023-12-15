@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.core.serializers.json import DjangoJSONEncoder
 from json import JSONEncoder
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -213,6 +214,16 @@ def query_expense (request):
             'error': 'invalid request method'
         }, status = 400)
     
+class JSONEncoder(DjangoJSONEncoder):
+    def default(self, o):
+        if isinstance(o, User) or isinstance(o, New):
+            # If the object is a Django model, convert it to a dictionary
+            return o.__dict__
+        elif isinstance(o, datetime):
+            # If the object is a datetime object, convert it to a string
+            return o.strftime('%Y-%m-%d %H:%M:%S')
+        return super().default(o)
+    
 @csrf_exempt
 def news (request):
     if request.method == 'POST':
@@ -225,9 +236,14 @@ def news (request):
                 'error': 'user does not exist'
             }, status = 400)
         news = New.objects.all().order_by('date')[:num]
+        news_list = list (news.values())
         context = {}
-        context['news'] = news
+        context['news'] = news_list
         return JsonResponse (context , encoder= JSONEncoder)
+    else:
+        return JsonResponse ({
+            'error': 'invalid request method'
+        }, status = 400)
 
     
 
