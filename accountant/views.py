@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from json import JSONEncoder
 from django.contrib.auth.models import User
 from datetime import datetime
-from .models import (Expense,Income)
+from .models import (Expense,Income,New)
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Aggregate , Count , Sum
 from django.contrib.auth.hashers import check_password
@@ -213,7 +213,21 @@ def query_expense (request):
             'error': 'invalid request method'
         }, status = 400)
     
-# TODO : news
+@csrf_exempt
+def news (request):
+    if request.method == 'POST':
+        this_token = request.POST.get ('token')
+        num = request.POST.get ('count' , 5)
+        try:
+            this_user = User.objects.get(token__token = this_token)
+        except User.DoesNotExist:
+            return JsonResponse ({
+                'error': 'user does not exist'
+            }, status = 400)
+        news = New.objects.all().order_by('date')[:num]
+        context = {}
+        context['news'] = news
+        return JsonResponse (context , encoder= JSONEncoder)
 
     
 
